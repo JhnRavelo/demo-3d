@@ -40,12 +40,6 @@ scene.add( camera );
 // }
 
 // };
-// loader = new OBJLoader()
-// loader.load('bat/ProjectName.obj',(object)=>{
-//     object.position.set(0,0,0)
-//     object.scale.set(0.00013,0.00013,0.00013)
-//     scene.add(object)
-// })
 new MTLLoader()
 	.setPath( 'FICHIER OBJ/' )
 	.load( 'BATIS.mtl', function ( materials ) {
@@ -57,21 +51,17 @@ new MTLLoader()
 			.setPath( 'FICHIER OBJ/' )
 			.load( 'BATIS.obj', function ( object ) {
 				model = object
-				// model.traverse(child=>{
-				// 	if(child.isMesh){
-				// 		child.castShadow = true
-				// 		child.receiveShadow = true
-						
-				// 	}
-				// 	var material = child.material
-				// 	// console.log(child.material);
-				// 	if(material && material.map){
-				// 		// console.log(child.material.color);
-				// 		// console.log(child.material.map);
-				// 		// console.log(child.material)
-				// 		material.map.anisotropy = 16
-				// 	}
-				// })	
+				model.traverse(child=>{
+					if(child.isMesh){
+						child.castShadow = true
+						child.receiveShadow = true	
+					}
+					var material = child.material
+					// console.log(child.material);
+					if(material && material.map){
+						material.map.anisotropy = 16
+					}
+				})	
 				model.position.set(1.8,-0.2,0)
 				model.scale.set(0.00005,0.00005,0.00005);
 				scene.add( model );
@@ -88,9 +78,9 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 // renderer.setClearColor(0xfffff5)
 renderer.setClearColor(0xE86222)
-renderer.toneMapping = THREE.ReinhardToneMapping
-renderer.toneMappingExposure = 3.5
-// renderer.shadowMap.enabled = true
+renderer.toneMapping = THREE.CineonToneMapping
+renderer.toneMappingExposure = 1.1
+renderer.shadowMap.enabled = true
 //
 
 controls = new OrbitControls( camera, renderer.domElement );
@@ -99,7 +89,7 @@ scene.add(controls)
 
 // -------control of the light---------
 
-hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2.5)
+hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 3.5)
 hemiLight.color.setHSL(0.6,1,0.6)
 hemiLight.groundColor.setHSL(0.095,1,0.75)
 hemiLight.position.set(0,20,0)
@@ -108,7 +98,7 @@ hemiLight.position.set(0,20,0)
 scene.add(hemiLight)
 scene.add(new THREE.HemisphereLightHelper(hemiLight))
 
-dirLight = new THREE.DirectionalLight(0xffffff,2)
+dirLight = new THREE.DirectionalLight(0xffffff,3)
 dirLight.color.setHSL(0.1,1,0.95)
 dirLight.position.set(-1,1.75,1)
 dirLight.position.multiplyScalar(30)
@@ -145,7 +135,7 @@ pointLight.position.set(0,0,0)
 // scene.add(new THREE.PointLightHelper(pointLight))
 // -------control of the light---------
 //
-scene.add(new THREE.AxesHelper(20))
+// scene.add(new THREE.AxesHelper(20))
 window.addEventListener( 'resize', onWindowResize );
 
 }
